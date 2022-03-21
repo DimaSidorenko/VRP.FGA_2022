@@ -1,3 +1,10 @@
+# ignore compilation files
+**/.vs
+**/x64
+**/x32
+**/v16
+**/v17
+
 # Prerequisites
 *.d
 
