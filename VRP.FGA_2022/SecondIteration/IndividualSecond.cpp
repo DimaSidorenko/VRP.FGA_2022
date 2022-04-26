@@ -16,7 +16,7 @@ bool IndividualSecond::operator<(const IndividualSecond& ind) const
 }
 
 
-int64_t IndividualSecond::CalculateFitness(InputData& input) {
+double IndividualSecond::CalculateFitness(InputData& input) {
 	if (sequences.size() != input.Size()) {
 		assert(sequences.size() == input.Size());
 		return -1;
@@ -24,7 +24,7 @@ int64_t IndividualSecond::CalculateFitness(InputData& input) {
 
 	int n = (int)(sequences.size());
 
-	vector<int> prefLen(n, 0);
+	vector<double> prefLen(n, 0);
 
 	for (int i = 1; i < n; ++i) {
 		prefLen[i] = prefLen[i - 1] + input.Distance(sequences[i - 1], sequences[i]);
@@ -33,7 +33,7 @@ int64_t IndividualSecond::CalculateFitness(InputData& input) {
 	//int* dp = new int[n];
 	//fill(dp, dp + n, INF);
 
-	vector<int> dp(n, INF);
+	vector<double> dp(n, INF);
 
 
 	dp[0] = 0;
@@ -41,7 +41,7 @@ int64_t IndividualSecond::CalculateFitness(InputData& input) {
 		if (dp[v] == INF) {
 			continue;
 		}
-		int len = 0;
+		double len = 0;
 		for (int u = v + 1; u < n; ++u) {
 			// relaxing using edge (v, u)
 			len = prefLen[u] - prefLen[v + 1] + input.Distance(0, sequences[v + 1]) + input.Distance(sequences[u], 0);
@@ -60,7 +60,7 @@ vector<int32_t> IndividualSecond::BornAnIndividual(Chromosome blueprint, double 
 {
 	int n = chromosome.Size();
 	vector<int> seq(n);
-	vector<int> used(n + 1, false);
+	vector<int> used(n, false);
 
 	double gLR = globalLR;
 
@@ -69,13 +69,16 @@ vector<int32_t> IndividualSecond::BornAnIndividual(Chromosome blueprint, double 
 	used[0] = true;
 
 	for (int i = 1; i < n; i++) {
+		int32_t prev_vertex = seq[i - 1];
+
+
 		if (enable_blueprint) {
-			for (int j = 0; j < chromosome.genes[i].Size(); j++) {
-				chromosome.genes[i].probabilities[j] = gLR * blueprint.genes[i].probabilities[j] + (1 - gLR) * chromosome.genes[i].probabilities[j];
+			for (int j = 0; j < chromosome.genes[prev_vertex].Size(); j++) {
+				chromosome.genes[prev_vertex].probabilities[j] = 
+					gLR * blueprint.genes[prev_vertex].probabilities[j] + (1 - gLR) * chromosome.genes[prev_vertex].probabilities[j];
 			}
 		}
 
-		int32_t prev_vertex = seq[i - 1];
 
 		vector<double> prob;
 		vector<int> key;
@@ -83,7 +86,7 @@ vector<int32_t> IndividualSecond::BornAnIndividual(Chromosome blueprint, double 
 		for (int j = 0; j < chromosome.genes[prev_vertex].Size(); j++) {
 			if (!used[j]) {
 				key.push_back(j);
-				prob.push_back(chromosome.genes[i].probabilities[j]);
+				prob.push_back(chromosome.genes[prev_vertex].probabilities[j]);
 			}
 		}
 

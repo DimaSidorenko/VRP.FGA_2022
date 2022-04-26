@@ -16,7 +16,7 @@ bool Individual::operator<(const Individual& ind) const
 }
 
 
-int64_t Individual::CalculateFitness(InputData& input) {
+double Individual::CalculateFitness(InputData& input) {
 	if (sequences.size() + 1 != input.Size()) {
 		return -1;
 	}
@@ -24,22 +24,20 @@ int64_t Individual::CalculateFitness(InputData& input) {
 	sequences.insert(sequences.begin(), { 0 });
 	int n = (int)(sequences.size());
 
-	int* prefLen = new int[n];
-	fill(prefLen, prefLen + n, 0);
+	vector<double> prefLen(n, 0);
 
 	for (int i = 1; i < n; ++i) {
 		prefLen[i] = prefLen[i - 1] + input.Distance(sequences[i - 1], sequences[i]);
 	}
-
-	int* dp = new int[n];
-	fill(dp, dp + n, INF);
+	
+	vector<double> dp(n, INF);
 
 	dp[0] = 0;
 	for (int v = 0; v + 1 < n; ++v) {
 		if (dp[v] == INF) {
 			continue;
 		}
-		int len = 0;
+		double len = 0;
 		for (int u = v + 1; u < n; ++u) {
 			// relaxing using edge (v, u)
 			len = prefLen[u] - prefLen[v + 1] + input.Distance(0, sequences[v + 1]) + input.Distance(sequences[u], 0);
@@ -47,9 +45,7 @@ int64_t Individual::CalculateFitness(InputData& input) {
 		}
 	}
 
-	delete[] prefLen;
 	auto answer = dp[n - 1];
-	delete[] dp;
 	sequences.erase(sequences.begin());
 	return answer;
 }

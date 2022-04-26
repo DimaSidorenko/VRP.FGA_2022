@@ -1,6 +1,8 @@
 #include "Math.h"
 
-static mt19937 randGen;
+std::random_device rd;
+static mt19937 randGen(rd());
+
 
 int Math::GenInt(int l, int r) {
 	uniform_int_distribution<int> uid(l, r);

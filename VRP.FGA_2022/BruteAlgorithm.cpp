@@ -49,10 +49,10 @@ bool BruteAlgorithm::Solve(InputData& input) {
 	}
 
 	vector<int> best_seq;
-	int best_seq_fitness = INT_MAX;
+	double best_seq_fitness = INF;
 
 	do {
-		int fitness = CalcFitness(seq, input);
+		double fitness = CalcFitness(seq, input);
 
 		if (fitness < best_seq_fitness) {
 			best_seq_fitness = fitness;

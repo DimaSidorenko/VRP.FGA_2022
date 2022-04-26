@@ -229,6 +229,13 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 	cout << "Number of iteration = " << currentIteration << "\n\n";
 	cout << "****************************************************************" << '\n';
 
+
+	auto temp = IndividualSecond(blueprint, input, blueprint, globalLR, enable_blueprint);
+	for (auto to : temp.sequences) {
+		cout << to << ' ';
+	}
+	cout << '\n';
+
 	//mean_second.close();
 	//best_second.close();
 

@@ -65,6 +65,7 @@ private:
 		N = cnt_vehicles;
 
 		Vertex.resize(cnt_vehicles);
+		Dist.resize(cnt_vehicles, vector<double>(cnt_vehicles));
 
 		vector<Point> graph(cnt_vehicles);
 
@@ -102,7 +103,7 @@ public:
 		Dist = CalcDist(graph);
 	}
 
-	int Distance(int i, int j) {
+	double Distance(int i, int j) {
 		return Dist[i][j];
 	}
 

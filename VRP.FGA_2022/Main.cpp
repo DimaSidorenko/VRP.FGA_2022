@@ -10,18 +10,18 @@
 
 using namespace std;
 
-const char* fileName = "input.txt";
+const char* fileName = "input1.txt";
 //InputFormat inputFormat = InputFormat::file;
 
 
 
-const int VERTEX_COUNT = 300;
-const int COUNT_ITERATION = 100;
+const int VERTEX_COUNT = 10;
+const int COUNT_ITERATION = 1000;
 const int POPULATION_SIZE = 30;
 
 
-double diversityRate = 1 / double(VERTEX_COUNT * COUNT_ITERATION);
-double individualLR = 1 / double(VERTEX_COUNT * COUNT_ITERATION);
+double diversityRate = 1 / double(VERTEX_COUNT * 10);
+double individualLR = 1 / double(VERTEX_COUNT * 10);
 double globalLR = 0.05;
 
 
@@ -33,20 +33,19 @@ double globalLR = 0.05;
 
 
 void test() {
-	//InputData input(fileName);
-	InputData input(VERTEX_COUNT);
-	input.WriteInFile(fileName);
+	//InputData input(VERTEX_COUNT);
+	//input.WriteInFile(fileName);
 	
-	//InputData input(fileName);
+	InputData input(fileName);
 
 	SolverFirst Solver1(diversityRate, individualLR, globalLR);
 	Solver1.Solve(input, POPULATION_SIZE, COUNT_ITERATION, true);
 	
-	//BruteAlgorithm Brute;
-	//Brute.Solve(input);
+	BruteAlgorithm Brute;
+	Brute.Solve(input);
 
 	SolverSecond Solver2(diversityRate, individualLR, globalLR);
-	Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, true);
+	Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, false);
 }
 
 
