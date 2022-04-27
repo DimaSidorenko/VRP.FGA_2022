@@ -5,6 +5,7 @@
 #include "FirstIteration/SolverFirst.h"
 #include "BruteAlgorithm.h"
 #include "SecondIteration/SolverSecond.h"
+#include "SolverGenetic.h"
 
 #pragma warning(disable : 4996)
 
@@ -15,41 +16,38 @@ const char* fileName = "input1.txt";
 
 
 
-const int VERTEX_COUNT = 10;
-const int COUNT_ITERATION = 1000;
+const int VERTEX_COUNT = 100;
+const int COUNT_ITERATION = 10000;
 const int POPULATION_SIZE = 30;
 
 
-double diversityRate = 1 / double(VERTEX_COUNT * 10);
-double individualLR = 1 / double(VERTEX_COUNT * 10);
+double individualLR = 1 / double(VERTEX_COUNT);
+double diversityRate = individualLR;
 double globalLR = 0.05;
-
-
-//double SolverFluidGeneticSecond::diversityRate = 0.0005;
-//double SolverFluidGeneticSecond::individualLR = 0.05;
-//double SolverFluidGeneticSecond::globalLR = 0.05;
-
 
 
 
 void test() {
-	//InputData input(VERTEX_COUNT);
-	//input.WriteInFile(fileName);
+	InputData input(VERTEX_COUNT);
+	input.WriteInFile(fileName);
 	
-	InputData input(fileName);
+	//InputData input(fileName);
 
 	SolverFirst Solver1(diversityRate, individualLR, globalLR);
 	Solver1.Solve(input, POPULATION_SIZE, COUNT_ITERATION, true);
 	
-	BruteAlgorithm Brute;
-	Brute.Solve(input);
+	//BruteAlgorithm Brute;
+	//Brute.Solve(input);
 
 	SolverSecond Solver2(diversityRate, individualLR, globalLR);
 	Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, false);
+
+	SolverGenetic Solver3;
+	Solver3.Solve(input, POPULATION_SIZE);
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
 	srand(time(0));
 	cout.setf(ios::fixed);
 	cout.precision(8);
