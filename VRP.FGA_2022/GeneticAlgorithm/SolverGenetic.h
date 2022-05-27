@@ -1,8 +1,7 @@
 #pragma once
-#include "Utils.h"
-#include "InputData.h"
 #include <map>
 #include <algorithm>
+#include "../Utility/Utils.h"
 #include "Optimizations.h"
 
 class SolverGenetic {

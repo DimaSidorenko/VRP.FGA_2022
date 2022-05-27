@@ -1,6 +1,5 @@
 #pragma once
-#include "../Utils.h"
-#include "../InputData.h"
+#include "../Utility/Utils.h"
 #include "../FirstIteration/Chromosome.h"
 #include "../SecondIteration/IndividualSecond.h"
 #include "../FirstIteration/Gene.h"

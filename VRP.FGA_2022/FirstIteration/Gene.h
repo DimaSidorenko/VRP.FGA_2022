@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "../Utils.h"
+#include "../Utility/Utils.h"
 
 
 class Gene {

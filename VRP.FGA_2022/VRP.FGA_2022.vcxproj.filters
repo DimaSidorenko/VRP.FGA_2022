@@ -18,10 +18,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputDataOld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="Utility\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FirstIteration\SolverFirst.cpp">
@@ -36,7 +33,7 @@
     <ClCompile Include="FirstIteration\Individual.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BruteAlgorithm.cpp">
+    <ClCompile Include="BruteAlgorithm\BruteAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SecondIteration\SolverSecond.cpp">
@@ -45,24 +42,21 @@
     <ClCompile Include="SecondIteration\IndividualSecond.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputData.cpp">
+    <ClCompile Include="Utility\InputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
+    <ClCompile Include="Utility\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SolverGenetic.cpp">
+    <ClCompile Include="GeneticAlgorithm\SolverGenetic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Optimizations.cpp">
+    <ClCompile Include="GeneticAlgorithm\Optimizations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputDataOld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="Utility\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FirstIteration\SolverFirst.h">
@@ -77,7 +71,7 @@
     <ClInclude Include="FirstIteration\Individual.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BruteAlgorithm.h">
+    <ClInclude Include="BruteAlgorithm\BruteAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SecondIteration\SolverSecond.h">
@@ -86,16 +80,16 @@
     <ClInclude Include="SecondIteration\IndividualSecond.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputData.h">
+    <ClInclude Include="Utility\InputData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="Utility\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SolverGenetic.h">
+    <ClInclude Include="GeneticAlgorithm\SolverGenetic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Optimizations.h">
+    <ClInclude Include="GeneticAlgorithm\Optimizations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "FirstIteration/SolverFirst.h"
 #include "BruteAlgorithm.h"
 #include "SecondIteration/SolverSecond.h"
-#include "SolverGenetic.h"
+#include "GeneticAlgorithm/SolverGenetic.h"
 
 #pragma warning(disable : 4996)
 
@@ -16,7 +16,7 @@ const char* fileName = "input1.txt";
 
 
 
-const int VERTEX_COUNT = 100;
+const int VERTEX_COUNT = 10;
 const int COUNT_ITERATION = 10000;
 const int POPULATION_SIZE = 30;
 

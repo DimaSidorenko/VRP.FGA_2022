@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "Chromosome.h"
 #include "Gene.h"
-#include <vector>
-#include "../InputData.h"
+#include "../Utility/InputData.h"
 
 
 class Individual

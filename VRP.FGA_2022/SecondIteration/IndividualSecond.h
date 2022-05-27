@@ -1,10 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "../FirstIteration/Chromosome.h"
 #include "../FirstIteration/Gene.h"
-#include <vector>
-#include "../InputData.h"
-
+#include "../Utility/Utils.h"
 
 class IndividualSecond
 {
