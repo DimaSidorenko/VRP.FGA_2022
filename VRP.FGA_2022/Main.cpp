@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
-#include "Utils.h"
-#include "InputData.h"
+#include "Utility/Utils.h"
 #include "FirstIteration/SolverFirst.h"
-#include "BruteAlgorithm.h"
+#include "BruteAlgorithm/BruteAlgorithm.h"
 #include "SecondIteration/SolverSecond.h"
 #include "GeneticAlgorithm/SolverGenetic.h"
 
