@@ -3,26 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include "Math.h"
+#include "TestGenerator.h"
 
 const long long LINF = 2000000000000000000;
 const int INF = 1e9 + 10;
-
-
-class TestGenerator {
-public:
-	//generate N vertex (points on 2D plane)
-	static vector<Point> getData(int N = 100, int maxDist = 1e3) {	
-		vector<Point> res(N);
-
-		for (auto& [x, y] : res) {
-			x = Math::GenDouble(-maxDist, maxDist);
-			y = Math::GenDouble(-maxDist, maxDist);
-			
-		}
-
-		return res;
-	}
-};
 
 
 class InputData {
@@ -32,7 +16,7 @@ private:
 	vector<vector<double>> Dist;
 
 	//Calc Euclidean distance between points
-	static vector<vector<double>> CalcDist(vector<Point> &vertex) {
+	static vector<vector<double>> CalcDist(vector<Point>& vertex) {
 		int n = vertex.size();
 		vector<vector<double>> dist(n, vector<double>(n));
 		for (int i = 0; i < n; i++) {
@@ -77,7 +61,7 @@ public:
 
 	InputData(int _N = 100, int maxDist = 1e3) {
 		N = _N;
-		Vertex = TestGenerator::getData(N, maxDist);
+		Vertex = TestGenerator::generateVertex(N, maxDist);
 		Dist = CalcDist(Vertex);
 	}
 
