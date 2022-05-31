@@ -94,6 +94,47 @@ SolverSecond::SolverSecond(double diversityRate, double individualLR, double glo
 	diversityRate(diversityRate), individualLR(individualLR), globalLR(globalLR), enable_blueprint(false) {};
 
 
+
+void SolverSecond::IncreaseGeneProbabilities(vector<double>& probabilities, int nextVertex) {
+	int n = probabilities.size();
+
+	double canIncrease = min(max(0.0, 1 - diversityRate - probabilities[nextVertex]), individualLR);
+	double decreaseValue = canIncrease / (n - 1);
+	
+	double totalDecreaseValue = 0.0;
+	for (int j = 0; j < n; j++) {
+		if (j != nextVertex) {
+
+			double canDecrease = min(probabilities[j] - diversityRate, decreaseValue);
+			probabilities[j] -= canDecrease;
+			totalDecreaseValue += canDecrease;
+		}
+	}
+
+	probabilities[nextVertex] += totalDecreaseValue;	
+}
+
+
+void SolverSecond::DecreaseGeneProbabilities(vector<double>& probabilities, int nextVertex) {
+	int n = probabilities.size();
+
+	double canDecrease = min(probabilities[nextVertex] - diversityRate, individualLR);
+	double IncreaseValue = canDecrease / (n - 1);
+
+	double totalIncreaseValue = 0.0;
+	for (int j = 0; j < n; j++) {
+		if (j != nextVertex) {
+
+			double canIncrease = min(max(0.0, 1 - diversityRate - probabilities[nextVertex]), IncreaseValue);
+			probabilities[j] += canIncrease;
+			totalIncreaseValue += canIncrease;
+		}
+	}
+
+	probabilities[nextVertex] -= totalIncreaseValue;
+}
+
+
 bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration, bool _enable_blueprint) {
 	enable_blueprint = _enable_blueprint;
 	int N = populationSize;
@@ -109,6 +150,8 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 	//ofstream best_second("best_second.txt");
 
 	IndividualSecond bestIndividual;
+
+	IndividualSecond lastBestIndividual;
 
 	while (currentIteration < cntIteration) {
 		currentIteration++;
@@ -131,16 +174,15 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 				int prevSeqValue = population[itInd].sequences[itGene - 1]; // previous vertex 
 				int curSeqValue = population[itInd].sequences[itGene]; // current vertex
 
-				//increase probability
-				UpdateProbability(population[itInd].chromosome.genes[prevSeqValue].probabilities[curSeqValue], individualLR, diversityRate);
+				//if (prevSeqValue == 7) {
+				//	cout << "debug: ";
+				//	for (auto to : population[itInd].sequences) {
+				//		cout << to << ' ';
+				//	}
+				//	cout << '\n';
+				//}
 
-				//recalc other genes probability
-				double decreaseValue = -individualLR / double(n - 1);
-				for (int j = 0; j < n; j++) {
-					if (j != curSeqValue) {
-						UpdateProbability(population[itInd].chromosome.genes[prevSeqValue].probabilities[j], decreaseValue, diversityRate);
-					}
-				}
+				IncreaseGeneProbabilities(population[itInd].chromosome.genes[prevSeqValue].probabilities, curSeqValue);
 			}
 		}
 
@@ -150,16 +192,7 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 				int prevSeqValue = population[itInd].sequences[itGene - 1]; // previous vertex 
 				int curSeqValue = population[itInd].sequences[itGene]; // current vertex
 
-				//decrease porbability
-				UpdateProbability(population[itInd].chromosome.genes[prevSeqValue].probabilities[curSeqValue], -individualLR, diversityRate);
-
-				//recalc other genes probability
-				double increaseValue = individualLR / double(n - 1);
-				for (int j = 0; j < n; j++) {
-					if (j != curSeqValue) {
-						UpdateProbability(population[itInd].chromosome.genes[prevSeqValue].probabilities[j], increaseValue, diversityRate);
-					}
-				}
+				DecreaseGeneProbabilities(population[itInd].chromosome.genes[prevSeqValue].probabilities, curSeqValue);
 			}
 		}
 
@@ -214,7 +247,27 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 		if (enable_blueprint) {
 			updateBlueprint(chrs);
 		}
+
+
+		if (currentIteration == cntIteration - 1) {
+			lastBestIndividual = population.back();
+		}
+
+		//lastBestIndividual = population.back();
+		//for (auto allel : lastBestIndividual.chromosome.genes[7].probabilities) {
+		//	cout << allel << ' ';
+		//}
+		//cout << '\n';
 	}
+
+	//validating probabilities
+	for (auto& gene : lastBestIndividual.chromosome.genes) {
+		for (auto allel : gene.probabilities) {
+			cout << allel << ' ';
+		}
+		cout << '\n';
+	}
+	cout << '\n';
 
 	//Printing results of algorithm
 	cout << "****************************************************************" << '\n';

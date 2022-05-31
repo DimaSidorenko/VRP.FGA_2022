@@ -11,39 +11,45 @@
 
 using namespace std;
 
-const char* fileName = "input1.txt";
+const char* fileName = "../TestGenerator/tests/test10_100.txt";
 //InputFormat inputFormat = InputFormat::file;
 
 
-
-const int VERTEX_COUNT = 10;
 const int COUNT_ITERATION = 10000;
 const int POPULATION_SIZE = 30;
 
 
-double individualLR = 1 / double(VERTEX_COUNT);
-double diversityRate = individualLR;
-double globalLR = 0.05;
 
 
 
 void test() {
-	InputData input(VERTEX_COUNT);
-	input.WriteInFile(fileName);
+	InputData input(fileName);
 	
-	//InputData input(fileName);
+	int vertexCount = input.Size();
 
-	SolverFirst Solver1(diversityRate, individualLR, globalLR);
-	Solver1.Solve(input, POPULATION_SIZE, COUNT_ITERATION, true);
-	
-	//BruteAlgorithm Brute;
-	//Brute.Solve(input);
+	double individualLR = 1 / double(vertexCount);
+	double diversityRate = 1 / double(vertexCount * vertexCount);
+	double globalLR = 0.05;
 
 	SolverSecond Solver2(diversityRate, individualLR, globalLR);
 	Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, false);
 
-	SolverGenetic Solver3;
-	Solver3.Solve(input, POPULATION_SIZE);
+	BruteAlgorithm Brute;
+	Brute.Solve(input);
+	
+	//InputData input(VERTEX_COUNT);
+	//input.WriteInFile(fileName);
+	//
+	////InputData input(fileName);
+
+	//SolverFirst Solver1(diversityRate, individualLR, globalLR);
+	//Solver1.Solve(input, POPULATION_SIZE, COUNT_ITERATION, true);
+
+	//SolverSecond Solver2(diversityRate, individualLR, globalLR);
+	//Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, false);
+
+	//SolverGenetic Solver3;
+	//Solver3.Solve(input, POPULATION_SIZE);
 }
 
 
