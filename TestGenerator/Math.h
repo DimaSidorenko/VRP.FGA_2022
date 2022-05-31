@@ -12,6 +12,7 @@ struct Point {
 
 	Point(double x = 0, double y = 0) : x(x), y(y) {};
 
+	//distance between 2 points = dot product for them
 	double getDist(const Point& p) {
 		return sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y));
 	}
