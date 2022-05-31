@@ -1,8 +1,6 @@
 #pragma once
 
-#include "InputData.h"
-#include "Utils.h"
-
+#include "../Utility/Utils.h"
 
 class BruteAlgorithm
 {

@@ -32,7 +32,7 @@ private:
 	vector<vector<double>> Dist;
 
 	//Calc Euclidean distance between points
-	static vector<vector<double>> CalcDist(vector<Point> vertex) {
+	static vector<vector<double>> CalcDist(vector<Point> &vertex) {
 		int n = vertex.size();
 		vector<vector<double>> dist(n, vector<double>(n));
 		for (int i = 0; i < n; i++) {
