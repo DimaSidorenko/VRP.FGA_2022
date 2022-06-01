@@ -15,16 +15,17 @@ using namespace std;
 int main(int argc, char** argv) {
 	if (argc < 2 || (string)argv[1] == "help") {
 		cout << "Possible commands:" << endl;
-		cout << "1) gen targetsCnt citySizeKm [fileName]" << endl;
+		cout << "1) gen targetsCnt [fileName]" << endl;
 		return 0;
 	}
 
-	if ((string)argv[1] == "gen") {
-		if (argc == 4) {
-			int targetsCnt = atoi(argv[2]);	
-			int citySize = atoi(argv[3]);
 
-			string fileName = "tests/" + string("test") + to_string(targetsCnt) + "_" + to_string(citySize) + ".txt";
+	int citySize = 100000;
+
+	if ((string)argv[1] == "gen") {
+		if (argc == 3) {
+			int targetsCnt = atoi(argv[2]);	
+			string fileName = "tests/" + string("test") + to_string(targetsCnt) + ".txt";
 
 			InputData input(targetsCnt, citySize);
 			input.WriteInFile(fileName.c_str());
@@ -32,11 +33,9 @@ int main(int argc, char** argv) {
 			cout << "Test successfully generated. Saved in " << fileName << endl;
 			return 0;
 		}
-		if (argc == 5) {
+		if (argc == 4) {
 			int targetsCnt = atoi(argv[2]);	
-			int citySize = atoi(argv[3]);
-
-			string fileName = "tests/" + string(argv[4]) + ".txt";
+			string fileName = "tests/" + string(argv[3]) + ".txt";
 
 			InputData input(targetsCnt, citySize);
 			input.WriteInFile(fileName.c_str());
