@@ -218,7 +218,7 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 		}
 
 		if (currentIteration % GAP_BETWEEN_OUTPUT == 0) {
-			cout << currentIteration << ' ' << meanFitness << ' ' << tempIndividual.fitness << '\n';
+			//cout << currentIteration << ' ' << meanFitness << ' ' << tempIndividual.fitness << '\n';
 		}
 
 		//mean_second << currentIteration << ' ' << meanFitness << '\n';
@@ -261,26 +261,26 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 	}
 
 	//validating probabilities
-	for (auto& gene : lastBestIndividual.chromosome.genes) {
-		for (auto allel : gene.probabilities) {
-			cout << allel << ' ';
-		}
-		cout << '\n';
-	}
-	cout << '\n';
+	//for (auto& gene : lastBestIndividual.chromosome.genes) {
+	//	for (auto allel : gene.probabilities) {
+	//		cout << allel << ' ';
+	//	}
+	//	cout << '\n';
+	//}
+	//cout << '\n';
 
 	//Printing results of algorithm
-	cout << "****************************************************************" << '\n';
-	cout << "Fluid Genetic SECOND RESULTS:\n";
+	//cout << "****************************************************************" << '\n';
+	//cout << "Fluid Genetic SECOND RESULTS:\n";
 	cout << "Best individual fitness = " << bestIndividual.fitness << '\n';
 
-	for (auto to : bestIndividual.sequences) {
-		cout << to << ' ';
-	}
-	cout << '\n';
+	//for (auto to : bestIndividual.sequences) {
+	//	cout << to << ' ';
+	//}
+	//cout << '\n';
 
-	cout << "Number of iteration = " << currentIteration << "\n\n";
-	cout << "****************************************************************" << '\n';
+	//cout << "Number of iteration = " << currentIteration << "\n\n";
+	//cout << "****************************************************************" << '\n';
 
 
 	//auto temp = IndividualSecond(blueprint, input, blueprint, globalLR, enable_blueprint);

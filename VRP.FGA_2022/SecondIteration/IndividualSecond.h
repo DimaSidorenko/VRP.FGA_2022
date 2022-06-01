@@ -21,5 +21,5 @@ private:
 	double CalculateFitness(InputData& input);
 
 	//generate sequences based on a chromosome
-	vector<int32_t> BornAnIndividual(Chromosome blueprint, double globalLR, bool enable_blueprint);
+	vector<int32_t> BornAnIndividual(Chromosome& blueprint, double globalLR, bool enable_blueprint);
 };
