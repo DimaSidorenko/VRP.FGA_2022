@@ -10,22 +10,20 @@
 
 using namespace std;
 
-const char* fileName = "../TestGenerator/tests/test10_100.txt";
+//const char* fileName = "../TestGenerator/tests/test10_100.txt";
 //InputFormat inputFormat = InputFormat::file;
 
 
-const int COUNT_ITERATION = 1000;
+//const int COUNT_ITERATION = 1000;
 const int POPULATION_SIZE = 30;
 
 
-void run_algo(const char* fileName, double individualLR, double diversityRate, double globalLR) {
+void run_algo(const char* fileName, double individualLR, double diversityRate, double globalLR, int countIteration) {
 	InputData input(fileName);
 	int vertexCount = input.Size();
 	
-	//cout << vertexCount << endl;	
-
 	SolverSecond Solver2(diversityRate, individualLR, globalLR);
-	Solver2.Solve(input, POPULATION_SIZE, COUNT_ITERATION, false);
+	Solver2.Solve(input, POPULATION_SIZE, countIteration, false);
 }
 
 
@@ -44,13 +42,14 @@ int main(int argc, char* argv[]) {
 
 
 	if ((string)argv[1] == "solve") {
-		if (argc == 6) {
+		if (argc == 7) {
 			const char* path = argv[2];
 			double iLR = stod(argv[3]);
 			double DR = stod(argv[4]);
 			double gLR = stod(argv[5]);
+			int countIteration = stoi(argv[6]);
 
-			run_algo(path, iLR, DR, gLR);
+			run_algo(path, iLR, DR, gLR, countIteration);
 			
 			//cout << "All Time Work  = " << (clock() - startT) / CLOCKS_PER_SEC << '\n';
 		}

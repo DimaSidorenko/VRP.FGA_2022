@@ -8,13 +8,18 @@ import math
 
 TESTS_DIR = "TestGenerator\\tests"
 ALGO_SOLVER_PATH = "VRP.FGA_2022\\VRP.FGA_2022.exe"
+RESULTS_DIR = "RESULTS"
+
+
 GLOBAL_LEARNING_RATE = 0.1
+ITERATION_COUNT = 300
+
 
 
 def run_algorithm(test_path, iLR, DR, gLR):
     print(test_path, iLR, DR, gLR)
 
-    result = subprocess.run([ALGO_SOLVER_PATH, "solve", test_path, str(iLR), str(DR), str(gLR)], capture_output=True,
+    result = subprocess.run([ALGO_SOLVER_PATH, "solve", test_path, str(iLR), str(DR), str(gLR), str(ITERATION_COUNT)], capture_output=True,
                             text=True)
 
     # print("stdout\n", result.stdout)
@@ -25,7 +30,8 @@ def run_algorithm(test_path, iLR, DR, gLR):
 
 
 # data[1] - x_axis, data[0] - y_axis
-def draw_data(data):
+# file_path without should be without file type
+def draw_data(data, file_path):
     plt.figure(figsize=(12, 7))
     plt.plot([x[1] for x in data], [x[0] for x in data], 'ro', label='Research results')
 
@@ -33,7 +39,7 @@ def draw_data(data):
     plt.ylabel('Значение метрики')
     plt.title('Качество работы алгоритма в зависимости от индивидуальной скорости обучения')
     plt.legend()
-    plt.savefig("kek" + ' results.png')
+    plt.savefig(file_path)
 
 
 def get_exponent_pow(value):
@@ -75,7 +81,7 @@ def make_research(test_path, vertexCount):
     ilr_exponent_value = dr_exponent_value + 1
     ilr_factor = math.pow(10, ilr_exponent_value)
 
-    for ilr_digit in range(1, 40, 3):
+    for ilr_digit in range(1, 40, 2):
         current_ilr = ilr_digit * ilr_factor
         best_result, best_diversity_rate = find_best_diversity_rate(current_ilr, test_path, dr_left_border_digit,
                                                                     dr_right_border_digit,
@@ -93,7 +99,7 @@ def main():
     for vertex_folder_path in vertex_folder_pathes:
         vertex_count = int(vertex_folder_path.split('\\')[-1])
 
-        if (vertex_count >= 60):
+        if (vertex_count != 100):
             continue
 
         # print(sz)
@@ -104,16 +110,26 @@ def main():
         for test_path in current_test_pathes:
             research_result = make_research(test_path, vertex_count)
 
-            continue
+            test_filename = test_path.split('\\')[-1]
+            last_point_pos = test_filename.rindex('.')
+            test_filename = test_filename[0:last_point_pos]
+
+            file_path_template = os.path.join(RESULTS_DIR, str(vertex_count), test_filename)
+            
+            # print(file_path_template)
+
             # write results in txt file
-            with open("some_result.txt", 'w') as writer:
+            txt_file_path = file_path_template + '_results.txt'
+
+            with open(txt_file_path, 'w') as writer:
                 for result in research_result:
                     for values in result:
                         writer.write("%s " % values)
                     writer.write("\n")
 
+            plot_file_path = file_path_template + '_plot.png'
             # draw plots
-            draw_data(research_result)
+            draw_data(research_result, plot_file_path)
 
 
 if __name__ == "__main__":

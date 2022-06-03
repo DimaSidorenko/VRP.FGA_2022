@@ -146,11 +146,7 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 
 	int currentIteration = 0;
 
-	//ofstream mean_second("mean_second.txt");
-	//ofstream best_second("best_second.txt");
-
 	IndividualSecond bestIndividual;
-
 	IndividualSecond lastBestIndividual;
 
 	while (currentIteration < cntIteration) {
@@ -173,14 +169,6 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 			for (int itGene = 1; itGene < n; itGene++) {
 				int prevSeqValue = population[itInd].sequences[itGene - 1]; // previous vertex 
 				int curSeqValue = population[itInd].sequences[itGene]; // current vertex
-
-				//if (prevSeqValue == 7) {
-				//	cout << "debug: ";
-				//	for (auto to : population[itInd].sequences) {
-				//		cout << to << ' ';
-				//	}
-				//	cout << '\n';
-				//}
 
 				IncreaseGeneProbabilities(population[itInd].chromosome.genes[prevSeqValue].probabilities, curSeqValue);
 			}
@@ -221,10 +209,7 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 			//cout << currentIteration << ' ' << meanFitness << ' ' << tempIndividual.fitness << '\n';
 		}
 
-		//mean_second << currentIteration << ' ' << meanFitness << '\n';
-		//best_second << currentIteration << ' ' << bestIndividual.fitness << '\n';
-
-
+		
 		//probabilities to become a parent
 		//depends on individual's fitness
 		vector<double> probabilities(N);
@@ -253,11 +238,6 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 			lastBestIndividual = population.back();
 		}
 
-		//lastBestIndividual = population.back();
-		//for (auto allel : lastBestIndividual.chromosome.genes[7].probabilities) {
-		//	cout << allel << ' ';
-		//}
-		//cout << '\n';
 	}
 
 	//validating probabilities
@@ -288,9 +268,6 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 	//	cout << to << ' ';
 	//}
 	//cout << '\n';
-
-	//mean_second.close();
-	//best_second.close();
 
 	return true;
 }
