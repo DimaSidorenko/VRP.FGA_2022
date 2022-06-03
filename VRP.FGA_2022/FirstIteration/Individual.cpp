@@ -51,7 +51,7 @@ double Individual::CalculateFitness(InputData& input) {
 }
 
 
-vector<int32_t> Individual::BornAnIndividual(Chromosome blueprint, double globalLR, bool enable_blueprint)
+vector<int32_t> Individual::BornAnIndividual(Chromosome& blueprint, double globalLR, bool enable_blueprint)
 {
 	int n = chromosome.Size();
 	vector<int> seq(n);
