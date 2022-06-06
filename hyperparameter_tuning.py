@@ -31,9 +31,9 @@ def run_algorithm(test_path, iLR, DR, gLR):
 
 # data[1] - x_axis, data[0] - y_axis
 # file_path without should be without file type
-def draw_data(data, file_path):
+def draw_data(data, file_path, vertex_cnt):
     plt.figure(figsize=(12, 7))
-    plt.plot([x[1] for x in data], [x[0] for x in data], 'ro', label='Research results')
+    plt.plot([x[1] for x in data], [x[0] for x in data], 'ro', label="{} вершин".format(vertex_cnt))
 
     plt.xlabel('Скорость обучения')
     plt.ylabel('Значение метрики')
@@ -81,7 +81,11 @@ def make_research(test_path, vertexCount):
     ilr_exponent_value = dr_exponent_value + 1
     ilr_factor = math.pow(10, ilr_exponent_value)
 
-    for ilr_digit in range(1, 40, 2):
+    ilr_left_border_digit = 15
+    ilr_right_border_digit = 80
+    ilr_step_digit = 4
+
+    for ilr_digit in range(ilr_left_border_digit, ilr_right_border_digit, ilr_step_digit):
         current_ilr = ilr_digit * ilr_factor
         best_result, best_diversity_rate = find_best_diversity_rate(current_ilr, test_path, dr_left_border_digit,
                                                                     dr_right_border_digit,
@@ -129,7 +133,7 @@ def main():
 
             plot_file_path = file_path_template + '_plot.png'
             # draw plots
-            draw_data(research_result, plot_file_path)
+            draw_data(research_result, plot_file_path, vertex_count)
 
 
 if __name__ == "__main__":
