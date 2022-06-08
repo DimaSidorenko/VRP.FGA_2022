@@ -16,6 +16,26 @@ const int citySize = 100000;
 
 int main(int argc, char** argv) {
 	bool fast_generation_mode = true;
+	bool special_test_cases_mode = true;
+
+	if (special_test_cases_mode) {
+		vector<int> sz = {30, 60};
+
+		int countSpecialTests = 3;
+
+		for (auto current_size : sz) {
+			for (int i = 1; i <= countSpecialTests; i++) {
+				string file_path = "tests\\" + to_string(current_size) + "\\" + "special_" + to_string(i) + ".txt";
+
+				vector<int> groupSizes(10, current_size / 10);
+
+				InputData input(current_size, citySize, groupSizes);
+				input.WriteInFile(file_path.c_str());
+			}
+		}
+
+		return 0;
+	}
 
 	if (fast_generation_mode) {
 		vector<int> sz = { 10, 30, 60, 100 };

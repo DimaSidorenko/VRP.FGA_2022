@@ -42,12 +42,15 @@ void InputData::ReadFromFile(const char* path) {
 }
 
 
+
+
 InputData::InputData(int _vertexCount, int _maxCoord) :
 	vertexCount(_vertexCount), maxCoord(_maxCoord)
 {
 	vertex = TestGenerator::generateVertex(_vertexCount, _maxCoord);
 	dist = CalcDist(vertex);
 }
+
 
 InputData::InputData(const char* path) {
 	ReadFromFile(path);
@@ -58,6 +61,15 @@ InputData::InputData(vector<Point>& graph) {
 	vertex = graph;
 	dist = CalcDist(graph);
 }
+
+InputData::InputData(int _vertexCount, int _maxCoord, vector<int>& _groupSizes) {
+	vertexCount = _vertexCount;
+
+	vertex = TestGenerator::generateSpecialTests(_vertexCount, _maxCoord, _groupSizes);
+	
+	dist = CalcDist(vertex);
+}
+
 
 double InputData::Distance(int i, int j) {
 	return dist[i][j];

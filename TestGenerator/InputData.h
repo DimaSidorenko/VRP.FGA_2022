@@ -24,6 +24,8 @@ private:
 public:
 
 	InputData(int _vertexCount, int _maxCoord);
+	InputData(int _vertexCount, int _maxCoord, vector<int>& _groupSizes);
+	
 	InputData(const char* path);
 	InputData(vector<Point>& graph);
 
