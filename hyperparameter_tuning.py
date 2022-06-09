@@ -5,6 +5,8 @@ import subprocess
 from subprocess import check_output
 import matplotlib.pylab as plt
 import math
+import numpy as np
+
 
 TESTS_DIR = "TestGenerator\\tests"
 ALGO_SOLVER_PATH = "VRP.FGA_2022\\VRP.FGA_2022.exe"
@@ -12,7 +14,7 @@ RESULTS_DIR = "RESULTS"
 
 
 GLOBAL_LEARNING_RATE = 0.1
-ITERATION_COUNT = 300
+ITERATION_COUNT = 500
 
 
 
@@ -75,7 +77,7 @@ def make_research(test_path, vertexCount):
 
     dr_exponent_value = get_exponent_pow(1 / vertexCount) - 2
     dr_left_border_digit = 1
-    dr_right_border_digit = 22
+    dr_right_border_digit = 20
     dr_step_digit = 2
 
     ilr_exponent_value = dr_exponent_value + 1
@@ -96,6 +98,38 @@ def make_research(test_path, vertexCount):
     return results
 
 
+
+def norm2(value, min, max):
+    return (value) / (max)
+
+def group_results(results):
+    if (len(results) == 0):
+        return []
+
+    grouped_result = np.zeros(len(results[0]))
+
+    for result in results:
+        result = np.array(result)
+        temp = result[:, 0]
+
+        mx = np.max(temp)
+        mn = np.min(temp)
+
+        normilized_metric_values = [norm2(elem, mn, mx) for elem in temp]
+        grouped_result += np.array(normilized_metric_values)
+
+    result = results[0];
+    x = np.array(result)[:, 1]
+
+    answer = []
+    for i in range(len(x)):
+        answer.append([grouped_result[i], x[i]])
+
+    # print(answer)
+
+    return answer
+
+
 def main():
     # test_filenames = os.listdir(TESTS_DIR)
     vertex_folder_pathes = [os.path.join(TESTS_DIR, filename) for filename in os.listdir(TESTS_DIR)]
@@ -103,7 +137,7 @@ def main():
     for vertex_folder_path in vertex_folder_pathes:
         vertex_count = int(vertex_folder_path.split('\\')[-1])
 
-        if (vertex_count != 100):
+        if (vertex_count != 30):
             continue
 
         # print(sz)
@@ -111,8 +145,12 @@ def main():
                                os.listdir(vertex_folder_path)]
         # print(current_test_pathes)
 
+        vertex_results = []
+
         for test_path in current_test_pathes:
             research_result = make_research(test_path, vertex_count)
+            
+            vertex_results.append(research_result)
 
             test_filename = test_path.split('\\')[-1]
             last_point_pos = test_filename.rindex('.')
@@ -134,7 +172,21 @@ def main():
             plot_file_path = file_path_template + '_plot.png'
             # draw plots
             draw_data(research_result, plot_file_path, vertex_count)
+        
+        
+        # plot_file_path = file_path_template + '_plot.png'
+        # draw plots
+        # draw_data(research_result, plot_file_path, vertex_count)
 
+
+        grouped_data = group_results(vertex_results)        
+        
+        file_path_template = os.path.join(RESULTS_DIR, str(vertex_count), str(vertex_count))
+        plot_file_path = file_path_template + '_plot.png'
+
+        draw_data(grouped_data, plot_file_path, vertex_count)
+
+        break
 
 if __name__ == "__main__":
     main()
