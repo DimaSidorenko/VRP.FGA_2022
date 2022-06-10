@@ -19,28 +19,30 @@ int main(int argc, char** argv) {
 	bool special_test_cases_mode = true;
 
 	if (special_test_cases_mode) {
-		vector<int> sz = {30, 60};
+		vector<int> sz = {10, 30, 45, 60, 80, 100};
 
-		int countSpecialTests = 3;
+		int countSpecialTests = 6;
 
 		for (auto current_size : sz) {
 			for (int i = 1; i <= countSpecialTests; i++) {
 				string file_path = "tests\\" + to_string(current_size) + "\\" + "special_" + to_string(i) + ".txt";
 
-				vector<int> groupSizes(10, current_size / 10);
+
+				int groupSize = (current_size + 9) / 10;
+
+				vector<int> groupSizes(current_size / groupSize, groupSize);
 
 				InputData input(current_size, citySize, groupSizes);
 				input.WriteInFile(file_path.c_str());
 			}
 		}
 
-		return 0;
 	}
 
 	if (fast_generation_mode) {
-		vector<int> sz = { 10, 30, 60, 100 };
+		vector<int> sz = { 10, 30, 45, 60, 80, 100 };
 		
-		int countRandomTests = 3;
+		int countRandomTests = 6;
 
 		for (auto current_size : sz) {
 			for (int i = 1; i <= countRandomTests; i++) {
