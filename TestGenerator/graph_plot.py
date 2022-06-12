@@ -5,9 +5,19 @@ import sys
 TESTS_DIR = "tests"
 
 def printGraph(file_path):
+    print(file_path)
+    
+    points = []
+    
     with open(file_path, 'r' ,encoding = 'utf-8') as f:
         vertexCount = int(f.readline())
-        print(vertexCount)
+        
+        for i in range(vertexCount):
+            pts = list(map(float, f.readline().split(' ')));
+            points.append((pts)) 
+    
+    plt.scatter([x[0] for x in points], [x[1] for x in points], cmap='hot', marker=".")
+    plt.show()
 
 
 def main():
@@ -23,9 +33,12 @@ def main():
         current_test_pathes = [os.path.join(vertex_folder_path, filename) for filename in
                                os.listdir(vertex_folder_path)]
 
-        for test_path in current_test_pathes:
+        for test_path in current_test_pathes:    
+            test_name = test_path.split('\\')[-1]
+            if (test_name.find('special') == -1):
+                continue
+        
             printGraph(test_path)
-            # print(test_path)
             
             # research_result = make_research(test_path, vertex_count)
 
