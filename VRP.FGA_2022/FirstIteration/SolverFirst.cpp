@@ -90,6 +90,47 @@ void SolverFirst::printPopulation(vector<Chromosome>& chrs, InputData& input) {
 }
 
 
+void SolverFirst::IncreaseGeneProbabilities(vector<double>& probabilities, int nextVertex) {
+	int n = probabilities.size();
+
+	double canIncrease = min(max(0.0, 1 - diversityRate - probabilities[nextVertex]), individualLR);
+	double decreaseValue = canIncrease / (n - 1);
+
+	double totalDecreaseValue = 0.0;
+	for (int j = 0; j < n; j++) {
+		if (j != nextVertex) {
+
+			double canDecrease = min(probabilities[j] - diversityRate, decreaseValue);
+			probabilities[j] -= canDecrease;
+			totalDecreaseValue += canDecrease;
+		}
+	}
+
+	probabilities[nextVertex] += totalDecreaseValue;
+}
+
+
+void SolverFirst::DecreaseGeneProbabilities(vector<double>& probabilities, int nextVertex) {
+	int n = probabilities.size();
+
+	double canDecrease = min(probabilities[nextVertex] - diversityRate, individualLR);
+	double IncreaseValue = canDecrease / (n - 1);
+
+	double totalIncreaseValue = 0.0;
+	for (int j = 0; j < n; j++) {
+		if (j != nextVertex) {
+
+			double canIncrease = min(max(0.0, 1 - diversityRate - probabilities[nextVertex]), IncreaseValue);
+			probabilities[j] += canIncrease;
+			totalIncreaseValue += canIncrease;
+		}
+	}
+
+	probabilities[nextVertex] -= totalIncreaseValue;
+}
+
+
+
 SolverFirst::SolverFirst(double diversityRate, double individualLR, double globalLR) :
 	diversityRate(diversityRate), individualLR(individualLR), globalLR(globalLR), enable_blueprint(false) {};
 
@@ -131,16 +172,7 @@ bool SolverFirst::Solve(InputData& input, int populationSize, int cntIteration, 
 
 				int seqValue = population[itInd].sequences[itGene] - 1;
 				
-				//increase probability
-				UpdateProbability(population[itInd].chromosome.genes[itGene].probabilities[seqValue], individualLR, diversityRate);
-				
-				//recalc other genes probability
-				double decreaseValue = -individualLR / double(n - 1);
-				for (int j = 0; j < n; j++) {
-					if (j != seqValue) {
-						UpdateProbability(population[itInd].chromosome.genes[itGene].probabilities[j], decreaseValue, diversityRate);
-					}
-				}
+				IncreaseGeneProbabilities(population[itInd].chromosome.genes[itGene].probabilities, seqValue);
 			}
 		}
 
@@ -151,16 +183,7 @@ bool SolverFirst::Solve(InputData& input, int populationSize, int cntIteration, 
 
 				int seqValue = population[itInd].sequences[itGene] - 1;
 
-				//decrease porbability
-				UpdateProbability(population[itInd].chromosome.genes[itGene].probabilities[seqValue], -individualLR, diversityRate);
-				
-				//recalc other genes probability
-				double increaseValue = individualLR / double(n - 1);
-				for (int j = 0; j < n; j++) {
-					if (j != seqValue) {
-						UpdateProbability(population[itInd].chromosome.genes[itGene].probabilities[j], increaseValue, diversityRate);
-					}
-				}
+				DecreaseGeneProbabilities(population[itInd].chromosome.genes[itGene].probabilities, seqValue);
 			}
 		}
 
@@ -186,7 +209,7 @@ bool SolverFirst::Solve(InputData& input, int populationSize, int cntIteration, 
 		}
 
 		if (currentIteration % GAP_BETWEEN_OUTPUT == 0) {
-			cout << currentIteration << ' ' << meanFitness << ' ' << tempIndividual.fitness << '\n';
+			//cout << fixed << currentIteration << ' ' << setprecision(12) << meanFitness << ' ' << 1 / tempIndividual.fitness << '\n';
 		}
 
 		//mean_second << currentIteration << ' ' << meanFitness << '\n';
@@ -216,20 +239,19 @@ bool SolverFirst::Solve(InputData& input, int populationSize, int cntIteration, 
 			updateBlueprint(chrs);
 		}
 	}
-	//3 8 5 2 4 6 1 7 9 10
 
-	//Printing results of algorithm
+	////Printing results of algorithm
 	cout << "****************************************************************" << '\n';
 	cout << "Fluid Genetic FIRST RESULTS:\n";
 	cout << "Best individual fitness = " << bestIndividual.fitness << '\n';
-	
-	for (auto to : bestIndividual.sequences) {
-		cout << to << ' ';
-	}
-	cout << '\n';
+	//
+	//for (auto to : bestIndividual.sequences) {
+	//	cout << to << ' ';
+	//}
+	//cout << '\n';
 
-	cout << "Number of iteration = " << currentIteration << "\n\n";
-	cout << "****************************************************************" << '\n';	
+	//cout << "Number of iteration = " << currentIteration << "\n\n";
+	//cout << "****************************************************************" << '\n';	
 
 	//mean_second.close();
 	//best_second.close();

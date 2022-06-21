@@ -13,40 +13,49 @@ struct Chromosome2 {
 	{}
 
 	static double CalcFitness(vector<int>& seq, InputData& input) {
-		if (seq.size() + 1 != input.Size()) {
-			return -1;
-		}
 
 		seq.insert(seq.begin(), { 0 });
-		int n = (int)(seq.size());
 
-		double* prefLen = new double[n];
-		fill(prefLen, prefLen + n, 0);
-
-		for (int i = 1; i < n; ++i) {
-			prefLen[i] = prefLen[i - 1] + input.Distance(seq[i - 1], seq[i]);
+		long double answer = 0;
+		for (int i = 1; i < seq.size(); i++) {
+			answer += input.Distance(seq[i - 1], seq[i]);
 		}
 
-		double* dp = new double[n];
-		fill(dp, dp + n, INF);
+		answer += input.Distance(seq.back(), 0);
 
-		dp[0] = 0;
-		for (int v = 0; v + 1 < n; ++v) {
-			if (dp[v] == INF) {
-				continue;
-			}
-			double len = 0;
-			for (int u = v + 1; u < n; ++u) {
-				// relaxing using edge (v, u)
-				len = prefLen[u] - prefLen[v + 1] + input.Distance(0, seq[v + 1]) + input.Distance(seq[u], 0);
-				dp[u] = min(dp[u], dp[v] + len);
-			}
-		}
-
-		delete[] prefLen;
-		auto answer = dp[n - 1];
-		delete[] dp;
 		seq.erase(seq.begin());
+
+		//if (seq.size() + 1 != input.Size()) {
+		//	return -1;
+		//}
+
+		//double* prefLen = new double[n];
+		//fill(prefLen, prefLen + n, 0);
+
+		//for (int i = 1; i < n; ++i) {
+		//	prefLen[i] = prefLen[i - 1] + input.Distance(seq[i - 1], seq[i]);
+		//}
+
+		//double* dp = new double[n];
+		//fill(dp, dp + n, INF);
+
+		//dp[0] = 0;
+		//for (int v = 0; v + 1 < n; ++v) {
+		//	if (dp[v] == INF) {
+		//		continue;
+		//	}
+		//	double len = 0;
+		//	for (int u = v + 1; u < n; ++u) {
+		//		// relaxing using edge (v, u)
+		//		len = prefLen[u] - prefLen[v + 1] + input.Distance(0, seq[v + 1]) + input.Distance(seq[u], 0);
+		//		dp[u] = min(dp[u], dp[v] + len);
+		//	}
+		//}
+
+		//delete[] prefLen;
+		//auto answer = dp[n - 1];
+		//delete[] dp;
+		//seq.erase(seq.begin());
 		return answer;
 	}
 

@@ -3,6 +3,7 @@
 #include "../FirstIteration/Chromosome.h"
 #include "../SecondIteration/IndividualSecond.h"
 #include "../FirstIteration/Gene.h"
+#include <iomanip>
 
 
 
