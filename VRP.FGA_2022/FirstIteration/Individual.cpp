@@ -20,34 +20,47 @@ double Individual::CalculateFitness(InputData& input) {
 	if (sequences.size() + 1 != input.Size()) {
 		return -1;
 	}
-
-	sequences.insert(sequences.begin(), { 0 });
-	int n = (int)(sequences.size());
-
-	vector<double> prefLen(n, 0);
-
-	for (int i = 1; i < n; ++i) {
-		prefLen[i] = prefLen[i - 1] + input.Distance(sequences[i - 1], sequences[i]);
-	}
 	
-	vector<double> dp(n, INF);
+	sequences.insert(sequences.begin(), { 0 });
 
-	dp[0] = 0;
-	for (int v = 0; v + 1 < n; ++v) {
-		if (dp[v] == INF) {
-			continue;
-		}
-		double len = 0;
-		for (int u = v + 1; u < n; ++u) {
-			// relaxing using edge (v, u)
-			len = prefLen[u] - prefLen[v + 1] + input.Distance(0, sequences[v + 1]) + input.Distance(sequences[u], 0);
-			dp[u] = min(dp[u], dp[v] + len);
-		}
+	long double answer = 0;
+	for (int i = 1; i < sequences.size(); i++) {
+		answer += input.Distance(sequences[i - 1], sequences[i]);
 	}
 
-	auto answer = dp[n - 1];
+	answer += input.Distance(sequences.back(), 0);
+
 	sequences.erase(sequences.begin());
+
 	return answer;
+
+	//sequences.insert(sequences.begin(), { 0 });
+	//int n = (int)(sequences.size());
+
+	//vector<double> prefLen(n, 0);
+
+	//for (int i = 1; i < n; ++i) {
+	//	prefLen[i] = prefLen[i - 1] + input.Distance(sequences[i - 1], sequences[i]);
+	//}
+	//
+	//vector<double> dp(n, INF);
+
+	//dp[0] = 0;
+	//for (int v = 0; v + 1 < n; ++v) {
+	//	if (dp[v] == INF) {
+	//		continue;
+	//	}
+	//	double len = 0;
+	//	for (int u = v + 1; u < n; ++u) {
+	//		// relaxing using edge (v, u)
+	//		len = prefLen[u] - prefLen[v + 1] + input.Distance(0, sequences[v + 1]) + input.Distance(sequences[u], 0);
+	//		dp[u] = min(dp[u], dp[v] + len);
+	//	}
+	//}
+
+	//auto answer = dp[n - 1];
+	//sequences.erase(sequences.begin());
+	//return answer;
 }
 
 

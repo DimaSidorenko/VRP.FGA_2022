@@ -10,7 +10,7 @@ using namespace std;
 
 //for individuals classes
 const int32_t NONE_FITNESS = -1;
-const int32_t GAP_BETWEEN_OUTPUT = 100;
+const int32_t GAP_BETWEEN_OUTPUT = 10;
 
 
 enum class InputFormat

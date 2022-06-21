@@ -206,7 +206,7 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 		}
 
 		if (currentIteration % GAP_BETWEEN_OUTPUT == 0) {
-			//cout << currentIteration << ' ' << meanFitness << ' ' << tempIndividual.fitness << '\n';
+			//cout << fixed << currentIteration << ' ' << setprecision(12) << meanFitness << ' ' << 1 / tempIndividual.fitness << '\n';
 		}
 
 		
@@ -240,21 +240,29 @@ bool SolverSecond::Solve(InputData& input, int populationSize, int cntIteration,
 
 	}
 
-	//validating probabilities
-	//for (auto& gene : lastBestIndividual.chromosome.genes) {
-	//	for (auto allel : gene.probabilities) {
-	//		cout << allel << ' ';
+	
+	//{
+	//	ofstream fout_special("output_special_test.txt");
+
+	//	// validating probabilities
+	//	for (auto& gene : lastBestIndividual.chromosome.genes) {
+	//		for (auto allel : gene.probabilities) {
+	//			fout_special /*<< fixed << setprecision(5)*/ << allel << ' ';
+	//		}
+	//		fout_special << '\n';
 	//	}
-	//	cout << '\n';
+	//	fout_special << '\n';
+	//
+	//	fout_special.close();
 	//}
-	//cout << '\n';
+
 
 	//Printing results of algorithm
-	//cout << "****************************************************************" << '\n';
-	//cout << "Fluid Genetic SECOND RESULTS:\n";
+	cout << "****************************************************************" << '\n';
+	cout << "Fluid Genetic SECOND RESULTS:\n";
 	cout << "Best individual fitness = " << bestIndividual.fitness << '\n';
 
-	//for (auto to : bestIndividual.sequences) {
+	//for (auto to : lastBestIndividual.sequences) {
 	//	cout << to << ' ';
 	//}
 	//cout << '\n';
